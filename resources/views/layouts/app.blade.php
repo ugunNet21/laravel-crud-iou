@@ -34,3 +34,10 @@
         </div>
     </body>
 </html>
+<!-- Add these lines in the head section -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+<!-- Add this line in the body section -->
+@stack('scripts')

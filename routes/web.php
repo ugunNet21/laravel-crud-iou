@@ -33,4 +33,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/pendaftaran',[PendaftaranController::class, 'index'])->name('pendaftaran.index');
+Route::get('/pendaftaran/create', [PendaftaranController::class, 'create'])->name('pendaftaran.create');
 Route::post('/pendaftaran',[PendaftaranController::class, 'store'])->name('pendaftaran.store');
+Route::get('/pendaftaran/{id}', [PendaftaranController::class, 'show'])->name('pendaftaran.show');
+Route::get('/pendaftaran/{id}/edit', [PendaftaranController::class, 'edit'])->name('pendaftaran.edit');
+Route::put('/pendaftaran/{id}/update', [PendaftaranController::class, 'update'])->name('pendaftaran.update');
+Route::delete('/pendaftaran/{id}/destroy', [PendaftaranController::class, 'destroy'])->name('pendaftaran.destroy');
+Route::post('/pendaftaran/createNew', [PendaftaranController::class, 'storeNew'])->name('pendaftaran.storenew');

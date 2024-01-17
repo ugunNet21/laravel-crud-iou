@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi File</title>
+    <style>
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form id="myForm">
+        <label for="fileInput">Pilih File:</label>
+        <input type="file" id="fileInput" name="fileInput" onchange="verifyFile()" required>
+
+        <label>
+            <input type="checkbox" id="verificationCheckbox" onchange="toggleVerification()">
+            Verifikasi
+        </label>
+
+        <label for="verificationStatus">Status Verifikasi:</label>
+        <input type="text" id="verificationStatus" name="verificationStatus" readonly>
+
+    </form>
+
+    <script>
+        function verifyFile() {
+            var fileInput = document.getElementById('fileInput');
+            var verificationStatus = document.getElementById('verificationStatus');
+
+            // Lakukan verifikasi file, misalnya dengan mengecek ekstensi atau ukuran file.
+            // Di sini kita hanya menampilkan nama file sebagai contoh.
+            var fileName = fileInput.value.split('\\').pop();
+            verificationStatus.value = 'File: ' + fileName;
+        }
+
+        function toggleVerification() {
+            var verificationCheckbox = document.getElementById('verificationCheckbox');
+            var verificationStatus = document.getElementById('verificationStatus');
+
+            if (verificationCheckbox.checked) {
+                // Checkbox dicentang, status verifikasi menjadi readonly
+                verificationStatus.readOnly = true;
+                verificationStatus.value = 'Sudah terverifikasi';
+            } else {
+                // Checkbox tidak dicentang, status verifikasi dapat diubah
+                verificationStatus.readOnly = false;
+                verificationStatus.value = 'Belum terverifikasi';
+            }
+        }
+    </script>
+
+</body>
+
+</html>

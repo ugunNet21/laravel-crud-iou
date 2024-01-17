@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Input Text dan File</title>
+</head>
+<body>
+    <div id="app">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-input">Tambah Data</button>
+
+        <div class="modal fade" id="modal-input" tabindex="-1" role="dialog" aria-labelledby="modal-input-label" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-input-label">Tambah Data</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('input') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+
+                            <div class="form-group">
+                                <label for="nama">Nama</label>
+                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="file">File</label>
+                                <input type="file" class="form-control-file" id="file" name="file">
+                            </div>
+
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary" id="btn-submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/laravel-collective/2.6.2/js/laravel-collective.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Form submit
+            <span class="math-inline">\('form'\)\.submit\(function\(e\) \{
+e\.preventDefault\(\);
+// Validasi form
+if \(\!</span>('input[name=nama]').val()) {
+                    alert('Nama harus diisi');
+                    return false;
+                }
+
+                if (!$('input[name=file]').val()) {
+                    alert('File harus dipilih');
+                    return false;
+                }
+
+                // Kirim data ke server
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: $(this).attr('method'),
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.success) {
+                            alert('Data berhasil disimpan');
+                            location.reload();
+                        } else {
+                            alert(data.error);
+                        }
+                    }
+                });
+            });
+
+            // Menampilkan atau menyembunyikan button submit
+            <span class="math-inline">\('\#nama'\)\.on\('keyup', function\(\) \{
+if \(</span>(this).val()) {
+                    $('#btn-submit').prop('disabled', false);
+                } else {
+                    $('#btn-submit').prop('disabled', true);
+                }
+            });
+
+            <span class="math-inline">\('\#file'\)\.on\('change', function\(\) \{
+if \(</span>(this).val()) {
+                    $('#btn-submit').prop('disabled', false);
+                } else {
+                    $('#btn-submit').prop('disabled', true);
+                }
+            });
+        });
+    </script>
+</body>
+</html

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <!DOCTYPE html>
+        <html lang="en">
+
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Verifikasi Dokumen</title>
+        </head>
+
+        <body>
+
+            <h2>Form Verifikasi Dokumen</h2>
+
+            <!-- Checkbox untuk verifikasi -->
+            <input type="checkbox" id="verifikasiCheckbox" disabled>
+            <label for="verifikasiCheckbox">Sudah Terverifikasi</label>
+
+            <!-- Tombol untuk mengunggah dokumen -->
+            <input type="file" id="unggahDokumen" onchange="checkDocumentUpload()">
+
+            <script>
+                // Fungsi untuk memeriksa apakah ada dokumen yang diunggah
+                function checkDocumentUpload() {
+                    var fileInput = document.getElementById('unggahDokumen');
+                    var verifikasiCheckbox = document.getElementById('verifikasiCheckbox');
+
+                    // Memeriksa apakah ada file yang diunggah
+                    if (fileInput.files.length > 0) {
+                        // Jika ada file, mengaktifkan opsi centang
+                        verifikasiCheckbox.disabled = false;
+                        // Menandai sebagai "Sudah Terverifikasi" secara otomatis
+                        verifikasiCheckbox.checked = true;
+                    } else {
+                        // Jika tidak ada file, menonaktifkan opsi centang dan menghapus tanda centang
+                        verifikasiCheckbox.disabled = true;
+                        verifikasiCheckbox.checked = false;
+                    }
+                }
+            </script>
+
+        </body>
+
+        </html>
+
+    </div>
+</body>
+
+</html>

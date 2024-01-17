@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container">
+    <form onsubmit="submitForm()">
+      <input type="text" id="name">
+      <span id="nameError"></span>
+
+      <input type="email" id="email">
+      <span id="emailError"></span>
+
+      <input type="password" id="password">
+      <span id="passwordError"></span>
+
+      <input type="file" id="file">
+      <span id="fileError"></span>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      function submitForm() {
+        var form = document.getElementById("form");
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var file = document.getElementById("file");
+
+        // Validasi inputan
+        if (name === "") {
+          nameError.textContent = "Please enter your name.";
+          return false;
+        }
+
+        if (email === "") {
+          emailError.textContent = "Please enter your email address.";
+          return false;
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+          emailError.textContent = "Invalid email address.";
+          return false;
+        }
+
+        if (password === "") {
+          passwordError.textContent = "Please enter your password.";
+          return false;
+        } else if (password.length < 8) {
+          passwordError.textContent = "Password must be at least 8 characters long.";
+          return false;
+        }
+
+        // Validasi dokumen
+        if (file.files.length === 0) {
+          fileError.textContent = "Please upload a file.";
+          return false;
+        }
+
+        // Aktifkan atau nonaktifkan button submit
+        var submitButton = document.getElementById("submit");
+        submitButton.disabled = !name || !email || !password || file.files.length === 0;
+
+        return true;
+      }
+    </script>
+  </div>
+</body>
+
+</html>

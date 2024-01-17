@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Input File Ajax</title>
+</head>
+<body>
+
+<form id="form-upload">
+  <input type="text" name="nama" placeholder="Nama">
+  <input type="file" name="file">
+  <button type="submit" disabled>Submit</button>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Cek apakah semua inputan sudah terisi
+    function checkInput() {
+      var nama = $("#form-upload input[name='nama']").val();
+      var file = $("#form-upload input[name='file']").val();
+      return nama != "" && file != null;
+    }
+
+    // Tampilkan atau sembunyikan button submit
+    $("#form-upload button[type='submit']").prop("disabled", !checkInput());
+
+    // Event handler untuk input file
+    $("#form-upload input[name='file']").on("change", function() {
+      $("#form-upload button[type='submit']").prop("disabled", !checkInput());
+    });
+  });
+</script>
+</body>
+</html>

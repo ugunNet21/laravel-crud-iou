@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi Dokumen</title>
+</head>
+<body>
+
+<h2>Form Verifikasi Dokumen</h2>
+
+<form onsubmit="return validateForm()">
+
+    <!-- Checkbox untuk verifikasi -->
+    <input type="checkbox" id="verifikasiCheckbox" disabled>
+    <label for="verifikasiCheckbox">Sudah Terverifikasi</label>
+
+    <!-- Tombol untuk mengunggah dokumen -->
+    <input type="file" id="unggahDokumen" onchange="checkDocumentUpload()" required>
+
+    <!-- Tampilan untuk menampilkan status verifikasi -->
+    <p id="statusVerifikasi"></p>
+
+    <!-- Tombol submit -->
+    <input type="submit" value="Submit">
+</form>
+
+<script>
+    // Fungsi untuk memeriksa apakah ada dokumen yang diunggah
+    function checkDocumentUpload() {
+        var fileInput = document.getElementById('unggahDokumen');
+        var verifikasiCheckbox = document.getElementById('verifikasiCheckbox');
+        var statusVerifikasi = document.getElementById('statusVerifikasi');
+
+        // Memeriksa apakah ada file yang diunggah
+        if (fileInput.files.length > 0) {
+            // Jika ada file, mengaktifkan opsi centang
+            verifikasiCheckbox.disabled = false;
+            // Menandai sebagai "Sudah Terverifikasi" secara otomatis
+            verifikasiCheckbox.checked = true;
+            // Menampilkan status verifikasi
+            statusVerifikasi.innerHTML = "Sudah Terverifikasi";
+        } else {
+            // Jika tidak ada file, menonaktifkan opsi centang, menghapus tanda centang, dan menghapus status verifikasi
+            verifikasiCheckbox.disabled = true;
+            verifikasiCheckbox.checked = false;
+            statusVerifikasi.innerHTML = "";
+        }
+
+        // Menonaktifkan input file setelah verifikasi
+        fileInput.disabled = verifikasiCheckbox.checked;
+    }
+
+    // Mengaktifkan input file kembali saat checkbox di-uncheck
+    document.getElementById('verifikasiCheckbox').addEventListener('change', function () {
+        document.getElementById('unggahDokumen').disabled = this.checked;
+    });
+
+    // Fungsi untuk melakukan validasi sebelum submit form
+    function validateForm() {
+        var fileInput = document.getElementById('unggahDokumen');
+        var verifikasiCheckbox = document.getElementById('verifikasiCheckbox');
+
+        // Memeriksa apakah checkbox tercentang dan file diunggah
+        if (!verifikasiCheckbox.checked || fileInput.files.length === 0) {
+            alert("Harap pastikan semua inputan terisi dengan benar, terutama dokumen yang diunggah.");
+            return false; // Mencegah submit form jika validasi tidak terpenuhi
+        }
+
+        return true; // Memungkinkan submit form jika validasi terpenuhi
+    }
+</script>
+
+</body>
+</html>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Consultation\ConsultationController;
 use App\Http\Controllers\Pendaftaran\PendaftaranController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -40,3 +41,15 @@ Route::get('/pendaftaran/{id}/edit', [PendaftaranController::class, 'edit'])->na
 Route::put('/pendaftaran/{id}/update', [PendaftaranController::class, 'update'])->name('pendaftaran.update');
 Route::delete('/pendaftaran/{id}/destroy', [PendaftaranController::class, 'destroy'])->name('pendaftaran.destroy');
 Route::post('/pendaftaran/createNew', [PendaftaranController::class, 'storeNew'])->name('pendaftaran.storenew');
+
+Route::get('/consultation', [ConsultationController::class, 'index'])->name('consultation');
+Route::post('/create-consultation', [ConsultationController::class, 'create'])->name('create-consultation');
+
+
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('/login', 'Auth\LoginController@login');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

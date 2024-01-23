@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Alamat</title>
+    <style>
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <form>
+        <label for="kelurahan">Kelurahan:</label>
+        <select id="kelurahan" onchange="populateKecamatan()">
+            <option value="a1">Kelurahan A1</option>
+            <option value="a2">Kelurahan A2</option>
+            <option value="a3">Kelurahan A3</option>
+            <option value="b1">Kelurahan B1</option>
+            <option value="b2">Kelurahan B2</option>
+            <option value="b3">Kelurahan B3</option>
+            <!-- Tambahkan opsi kelurahan lainnya sesuai kebutuhan -->
+        </select>
+
+        <label for="kecamatan">Kecamatan:</label>
+        <select id="kecamatan">
+            <!-- Opsi kecamatan akan diisi secara dinamis setelah memilih kelurahan -->
+        </select>
+    </form>
+
+    <script>
+        // Data kecamatan berdasarkan kelurahan
+        const kecamatanData = {
+            'a1': 'Kec. A',
+            'a2': 'Kec. A',
+            'a3': 'Kec. A',
+            'b1': 'Kec. B',
+            'b2': 'Kec. B',
+            'b3': 'Kec. B'
+            // Tambahkan data kecamatan untuk kelurahan lainnya sesuai kebutuhan
+        };
+
+        function populateKecamatan() {
+            const kelurahanDropdown = document.getElementById('kelurahan');
+            const kecamatanDropdown = document.getElementById('kecamatan');
+            const selectedKelurahan = kelurahanDropdown.value;
+
+            // Hapus opsi kecamatan yang ada sebelumnya
+            kecamatanDropdown.innerHTML = '';
+
+            // Tambahkan opsi kecamatan berdasarkan kelurahan yang dipilih
+            const option = document.createElement('option');
+            option.value = kecamatanData[selectedKelurahan];
+            option.text = kecamatanData[selectedKelurahan];
+            kecamatanDropdown.appendChild(option);
+        }
+
+        // Panggil populateKecamatan untuk mengisi opsi kecamatan awal
+        populateKecamatan();
+    </script>
+
+</body>
+</html>

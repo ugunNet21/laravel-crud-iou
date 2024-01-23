@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Alamat\AlamatController;
 use App\Http\Controllers\Consultation\ConsultationController;
 use App\Http\Controllers\Pendaftaran\PendaftaranController;
 use App\Http\Controllers\ProfileController;
@@ -53,3 +54,6 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/alamat', [AlamatController::class, 'index']);
+Route::get('/get-kecamatan/{kelurahanId}', [AlamatController::class, 'getKecamatan']);

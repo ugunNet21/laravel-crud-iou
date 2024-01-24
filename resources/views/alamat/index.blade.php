@@ -29,7 +29,6 @@
 
             <label for="kecamatan">Kecamatan:</label>
             <select id="kecamatan">
-                <!-- Opsi kecamatan akan diisi secara dinamis setelah memilih kelurahan -->
             </select>
         </form>
     </div>

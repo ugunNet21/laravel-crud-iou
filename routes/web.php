@@ -57,3 +57,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/alamat', [AlamatController::class, 'index']);
 Route::get('/get-kecamatan/{kelurahanId}', [AlamatController::class, 'getKecamatan']);
+
+// form gabung alamat
+Route::get('/form', function () {
+    return view('alamat.form');
+});
+
+Route::post('/proses-alamat', [AlamatController::class, 'prosesAlamat'])->name('prosesAlamat');
+Route::get('/kecamatans', [AlamatController::class, 'getKecamatans']);
+Route::get('/kelurahans/{kecamatan_id}', [AlamatController::class, 'getKelurahans']);

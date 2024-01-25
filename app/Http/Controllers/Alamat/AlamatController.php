@@ -47,4 +47,5 @@ class AlamatController extends Controller
 
         return response()->json($kelurahans);
     }
+
 }

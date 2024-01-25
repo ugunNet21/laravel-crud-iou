@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Alamat\AlamatController;
 use App\Http\Controllers\Consultation\ConsultationController;
+use App\Http\Controllers\Indoregion\IndoregionController;
 use App\Http\Controllers\Pendaftaran\PendaftaranController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+// otomatis
 Route::get('/alamat', [AlamatController::class, 'index']);
 Route::get('/get-kecamatan/{kelurahanId}', [AlamatController::class, 'getKecamatan']);
 
@@ -66,3 +68,15 @@ Route::get('/form', function () {
 Route::post('/proses-alamat', [AlamatController::class, 'prosesAlamat'])->name('prosesAlamat');
 Route::get('/kecamatans', [AlamatController::class, 'getKecamatans']);
 Route::get('/kelurahans/{kecamatan_id}', [AlamatController::class, 'getKelurahans']);
+
+Route::get('/get-all-wilayah', [IndoregionController::class, 'getAllWilayah']);
+// Route::post('/get-regencies', [IndoregionController::class, 'getRegenciesByProvince']);
+// Route::post('/get-districts', [IndoregionController::class, 'getDistrictsByRegency']);
+// Route::post('/get-villages', [IndoregionController::class, 'getVillagesByDistrict']);
+
+// cek json alamat
+Route::get('/cekjson',[IndoregionController::class, 'cekJson'])->name('cek-json');
+Route::post('/get-regencies', [IndoregionController::class, 'getRegencies'])->name('get-regencies');
+Route::post('/get-districts', [IndoregionController::class, 'getDistricts'])->name('get-districts');
+Route::post('/get-villages', [IndoregionController::class, 'getVillages'])->name('get-villages');
+

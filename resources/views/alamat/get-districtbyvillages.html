@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Alamat Lembaga</title>
+    <!-- Include Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Inisialisasi Select2 pada input kelurahan
+            $('#kelurahan').select2({
+                placeholder: 'Pilih Kelurahan',
+                ajax: {
+                    url: '/get-kelurahan', // Endpoint untuk mendapatkan data kelurahan
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+            // Menambahkan event listener ketika nilai kelurahan berubah
+            $('#kelurahan').on('change', function () {
+                var kelurahanId = $(this).val(); // Ambil ID kelurahan yang dipilih
+                if (kelurahanId) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/get-district-by-village', // Endpoint untuk mendapatkan kecamatan berdasarkan kelurahan
+                        data: {
+                            kelurahan_id: kelurahanId
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.district_name) {
+                                $('#kecamatan').val(data.district_name); // Mengisi otomatis kecamatan berdasarkan kelurahan
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Inisialisasi Select2 pada input kelurahan
+            $('#kelurahan').select2({
+                placeholder: 'Pilih Kelurahan',
+                ajax: {
+                    url: '/get-kelurahan', // Endpoint untuk mendapatkan data kelurahan
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+            // Menambahkan event listener ketika nilai kelurahan berubah
+            $('#kelurahan').on('change', function () {
+                var kelurahanId = $(this).val(); // Ambil ID kelurahan yang dipilih
+                if (kelurahanId) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/get-district-by-village', // Endpoint untuk mendapatkan kecamatan berdasarkan kelurahan
+                        data: {
+                            kelurahan_id: kelurahanId
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.district_name) {
+                                $('#kecamatan').val(data.district_name); // Mengisi otomatis kecamatan berdasarkan kelurahan
+                                console.log('Kecamatan: ' + data.district_name); // Output respons ke konsol browser
+                            } else {
+                                console.log('Kecamatan tidak ditemukan'); // Output respons ke konsol browser jika kecamatan tidak ditemukan
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Terjadi kesalahan: ' + error); // Output pesan kesalahan ke konsol browser
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+    <h2>Form Alamat Lembaga</h2>
+    <form action="/submit" method="post">
+        @csrf
+        <label for="alamat">Alamat</label><br>
+        <input type="text" id="alamat" name="alamat"><br>
+
+        <label for="rt">RT</label><br>
+        <input type="text" id="rt" name="rt"><br>
+
+        <label for="rw">RW</label><br>
+        <input type="text" id="rw" name="rw"><br>
+
+        <label for="kelurahan">Kelurahan</label><br>
+        <select id="kelurahan" name="kelurahan" style="width: 100%;">
+            <option></option>
+        </select><br>
+
+        <label for="kecamatan">Kecamatan</label><br>
+        <input type="text" id="kecamatan" name="kecamatan" readonly><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>

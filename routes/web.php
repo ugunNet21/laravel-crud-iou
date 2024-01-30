@@ -4,7 +4,6 @@ use App\Http\Controllers\Alamat\AlamatController;
 use App\Http\Controllers\Consultation\ConsultationController;
 use App\Http\Controllers\Indoregion\IndoregionController;
 use App\Http\Controllers\Pendaftaran\PendaftaranController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -34,10 +33,9 @@ use Illuminate\Support\Facades\Route;
 
 // require __DIR__.'/auth.php';
 
-
-Route::get('/pendaftaran',[PendaftaranController::class, 'index'])->name('pendaftaran.index');
+Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.index');
 Route::get('/pendaftaran/create', [PendaftaranController::class, 'create'])->name('pendaftaran.create');
-Route::post('/pendaftaran',[PendaftaranController::class, 'store'])->name('pendaftaran.store');
+Route::post('/pendaftaran', [PendaftaranController::class, 'store'])->name('pendaftaran.store');
 Route::get('/pendaftaran/{id}', [PendaftaranController::class, 'show'])->name('pendaftaran.show');
 Route::get('/pendaftaran/{id}/edit', [PendaftaranController::class, 'edit'])->name('pendaftaran.edit');
 Route::put('/pendaftaran/{id}/update', [PendaftaranController::class, 'update'])->name('pendaftaran.update');
@@ -46,7 +44,6 @@ Route::post('/pendaftaran/createNew', [PendaftaranController::class, 'storeNew']
 
 Route::get('/consultation', [ConsultationController::class, 'index'])->name('consultation');
 Route::post('/create-consultation', [ConsultationController::class, 'create'])->name('create-consultation');
-
 
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
@@ -75,8 +72,30 @@ Route::get('/get-all-wilayah', [IndoregionController::class, 'getAllWilayah']);
 // Route::post('/get-villages', [IndoregionController::class, 'getVillagesByDistrict']);
 
 // cek json alamat
-Route::get('/cekjson',[IndoregionController::class, 'cekJson'])->name('cek-json');
+Route::get('/cekjson', [IndoregionController::class, 'cekJson'])->name('cek-json');
 Route::post('/get-regencies', [IndoregionController::class, 'getRegencies'])->name('get-regencies');
 Route::post('/get-districts', [IndoregionController::class, 'getDistricts'])->name('get-districts');
 Route::post('/get-villages', [IndoregionController::class, 'getVillages'])->name('get-villages');
+Route::get('/get-districts-by-villages', [IndoregionController::class, 'getDistrictsByVillages'])->name('get-districts-by-villages');
+Route::post('/get-districts-by-villages', [IndoregionController::class, 'getDistrictsByVillages'])->name('get-districts-by-villages');
+Route::get('/get-villages-by-district', [IndoregionController::class, 'getVillagesByDistrict'])->name('get-villages-by-district');
+Route::post('/get-villages-by-district', [IndoregionController::class, 'getVillagesByDistrict'])->name('get-villages-by-district');
+// Route::get('/get-district-by-village', [IndoregionController::class, 'getDistrictByVillage']);
+// Route::view('/get-district-by-village', 'get_district_by_village')->name('get-district-by-village');
+// Route::post('/get-district-by-village', [IndoregionController::class, 'getDistrictByVillage']);
+
+
+// Route::get('/get-village', [IndoregionController::class, 'getVillage'])->name('get-village');
+// Route::get('/get-district', [IndoregionController::class, 'getDistrict'])->name('get-district');
+Route::get('/show-dropdown', [IndoregionController::class, 'showDropdown'])->name('show-dropdown');
+
+
+
+Route::get('/get-by-village', [IndoregionController::class, 'getVillage'])->name('get-by-village');
+Route::post('/get-by-village', [IndoregionController::class, 'getVillage'])->name('get-by-village');
+Route::get('/get-by-district', [IndoregionController::class, 'getDistrict'])->name('get-by-district');
+Route::post('/get-by-district', [IndoregionController::class, 'getDistrict'])->name('get-by-district');
+// Route::get('/get-district-by-village', [IndoregionController::class, 'showDropdown'])->name('get-district-by-village');
+// Route::post('/get-district-by-village', [IndoregionController::class, 'showDropdown'])->name('get-district-by-village');
+// Route::post('/get-district-by-village', [IndoregionController::class, 'getDistrictByVillage']);
 

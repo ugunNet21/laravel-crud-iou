@@ -19,7 +19,7 @@
 
         <form action="{{ route('cek-json') }}" method="post">
             @csrf
-
+            <p>Keterangan Pemohon</p>
             <h2>Provinsi :</h2>
             <select name="provinsi" id="provinsi">
                 @foreach ($data['provinces'] as $province)
@@ -36,6 +36,19 @@
             </select>
             <h2>Kelurahan :</h2>
             <select name="kelurahan" id="kelurahan">
+            </select>
+
+            <p>Alamat Pemohon</p>
+            <h2>Kelurahan Pemohon :</h2>
+            <select name="kelurahan_2" id="kelurahan_2">
+                @foreach ($data['villages'] as $village)
+                    <option value="{{ $village['id'] }}">{{ $village['name'] }}</option>
+                @endforeach
+            </select>
+
+            <h2>Kecamatan Pemohon :</h2>
+            <select name="kecamatan_2" id="kecamatan_2">
+                {{-- dynamic otomatis kecamatan_2 --}}
             </select>
 
             <button type="submit">Kirim</button>
@@ -106,6 +119,49 @@
                     });
                 });
             });
+
+            $('#kelurahan_2').change(function() {
+                var villageId = $(this).val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('get-districts-by-villages') }}',
+                    data: {
+                        '_token': '{{ csrf_token() }}',
+                        'village_id': villageId
+                    },
+                    success: function(data) {
+                        var options = '<option value="">Pilih Kecamatan</option>';
+                        $.each(data.districts, function(key, district) {
+                            options += '<option value="' + district.id + '">' + district
+                                .name + '</option>';
+                        });
+                        $('#kecamatan_2').html(options);
+                    }
+                });
+            });
+
+            $('#kecamatan_2').change(function() {
+                var districtId = $(this).val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('get-villages-by-district') }}',
+                    data: {
+                        '_token': '{{ csrf_token() }}',
+                        'district_id': districtId
+                    },
+                    success: function(data) {
+                        var options = '<option value="">Pilih Kelurahan</option>';
+                        $.each(data.villages, function(key, village) {
+                            options += '<option value="' + village.id +
+                                '">' + village.name + '</option>';
+                        });
+                        $('#kelurahan_2').html(options);
+                    }
+                });
+            });
+
         });
     </script>
 

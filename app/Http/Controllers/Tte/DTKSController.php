@@ -52,24 +52,20 @@ class DTKSController extends Controller
             }
 
             $response = Http::withOptions(['verify' => false])
-                ->withHeaders([
-                    'Authorization' => 'Basic ' . base64_encode(env('ESIGN_USERNAME') . ':' . env('ESIGN_PASSWORD')),
-                    'Content-Type' => 'application/json',
-                ])
+                ->withBasicAuth(env('ESIGN_USERNAME'), env('ESIGN_PASSWORD'))
+                ->attach('file', file_get_contents(storage_path('app/' . $data['file_keterangan_dtks_sudtks'])), 'file_keterangan_dtks_sudtks.pdf')
                 ->post(env('ESIGN_VERIFY_API') . '/api/sign/pdf', [
-                    'json' => [
-                        'nik' => env('ESIGN_NIK_KEPALA_BIDANG_DATA_INFORMASI'),
-                        'passphrase' => env('ESIGN_PASSPHRASE_KEPALA_BIDANG_DATA_INFORMASI'),
-                        'tampilan' => 'visible',
-                        'linkQR' => env('ESIGN_LINKQR'),
-                        'width' => 550,
-                        'height' => 150,
-                        'tag_koordinat' => env('ESIGN_TAG_KOORDINAT'),
-                        'file' => $data['file_keterangan_dtks_sudtks'] ?? null,
-                    ],
+                    'nik' => env('ESIGN_NIK_KEPALA_BIDANG_DATA_INFORMASI'),
+                    'passphrase' => env('ESIGN_PASSPHRASE_KEPALA_BIDANG_DATA_INFORMASI'),
+                    'tampilan' => 'visible',
+                    'linkQR' => env('ESIGN_LINKQR'),
+                    'width' => 550,
+                    'height' => 150,
+                    'tag_koordinat' => env('ESIGN_TAG_KOORDINAT'),
                 ]);
 
-            $responseData = json_decode($response->body(), true);
+
+            $responseData = $response->json();
 
             if (isset($responseData['error'])) {
                 $errorCode = isset($responseData['status_code']) ? $responseData['status_code'] : null;
@@ -92,5 +88,4 @@ class DTKSController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
 }

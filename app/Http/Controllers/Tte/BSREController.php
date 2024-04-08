@@ -64,8 +64,8 @@ class BSREController extends Controller
 
         // Kirim permintaan ke API BSRE
         $client = new Client(['verify' => false]);
-        $response = $client->request('POST', 'https://esign-dev.layanan.go.id/api/sign/pdf', [
-            'auth' => ['esign', 'wrjcgX6526A2dCYSAV6u'],
+        $response = $client->request('POST', 'https://esign-dev.example.go.id/example', [
+            'auth' => ['username', 'password'],
             'multipart' => [
                 [
                     'name' => 'file',

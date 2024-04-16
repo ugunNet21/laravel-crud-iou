@@ -63,20 +63,22 @@ class DTKSController extends Controller
                     }
                 }
             }
-            // foreach ($data as $file) {
-            //     $pdf = new CustomPDF();
-            //     $pdf->setSourceFile(storage_path('app/' . $file));
-            //     $templateId = $pdf->importPage(1);
-            //     $pdf->AddPage();
-            //     $pdf->useTemplate($templateId);
-            //     $pdfContent = $pdf->Output('S');
+            foreach ($data as $file) {
+                $pdf = new CustomPDF();
+                $pdf->setSourceFile(storage_path('app/' . $file));
+                $templateId = $pdf->importPage(1);
+                $pdf->AddPage();
+                $pdf->useTemplate($templateId);
+                $pdf->Image(public_path('assets/img/Visualisasi_TTE_Dinsos/Kepala_Bidang_Data_dan_Informasi.png'), 100, 210, 100, null);
+                $pdf->Image(public_path('assets/img/Visualisasi_TTE_Dinsos/qr.png'), 20, 210, 30, 30);
+                $pdfContent = $pdf->Output('S');
 
-            //     // Save the PDF content to storage
-            //     $signedFileName = 'rekomendasi_terdaftar_dtks/surat_tte/' . $file . '_signed.pdf';
-            //     Storage::disk('local')->put($signedFileName, $pdfContent);
+                // Save the PDF content to storage
+                $signedFileName = 'rekomendasi_terdaftar_dtks/surat_tte/' . $file . '_signed.pdf';
+                Storage::disk('local')->put($signedFileName, $pdfContent);
 
-            //     // Perform further operations like sending the signed PDF via email, etc.
-            // }
+                // Perform further operations like sending the signed PDF via email, etc.
+            }
 
             if (isset($data['file_keterangan_dtks_sudtks'])) {
                 $filePath = str_replace(url('/'), '', $data['file_keterangan_dtks_sudtks']);

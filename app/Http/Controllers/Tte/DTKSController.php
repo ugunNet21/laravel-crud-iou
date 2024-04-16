@@ -63,26 +63,7 @@ class DTKSController extends Controller
                     }
                 }
             }
-            // foreach ($data as $file) {
-            //     $pdf = new CustomPDF();
-            //     $pdf->setSourceFile(storage_path('app/' . $file));
-            //     $templateId = $pdf->importPage(1);
-            //     $pdf->AddPage();
-            //     $pdf->useTemplate($templateId);
-            //     $pdfContent = $pdf->Output('S');
 
-            //     // Save the PDF content to storage
-            //     $signedFileName = 'rekomendasi_terdaftar_dtks/surat_tte/' . $file . '_signed.pdf';
-            //     Storage::disk('local')->put($signedFileName, $pdfContent);
-
-            //     // Perform further operations like sending the signed PDF via email, etc.
-            // }
-
-            if (isset($data['file_keterangan_dtks_sudtks'])) {
-                $filePath = str_replace(url('/'), '', $data['file_keterangan_dtks_sudtks']);
-                $fileContent = Storage::disk('local')->get($filePath);
-                Storage::disk('local')->put('file_keterangan_dtks_sudtks.pdf', $fileContent);
-            }
 
             $response = Http::withOptions(['verify' => false])
                 ->withBasicAuth(env('ESIGN_USERNAME'), env('ESIGN_PASSWORD'))

@@ -6,6 +6,7 @@ use App\Http\Controllers\Indoregion\IndoregionController;
 use App\Http\Controllers\Pendaftaran\PendaftaranController;
 use App\Http\Controllers\Tte\BSREController;
 use App\Http\Controllers\Tte\DTKSController;
+use App\Http\Controllers\Tte\TTEController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -109,4 +110,7 @@ Route::get('/generate-pdf/{id}', [BSREController::class, 'generatePDF'])->name('
 Route::middleware('dtks')->group(function () {
     Route::get('proses-tte', [DTKSController::class, 'index']);
     Route::post('send-tte', [DTKSController::class, 'update'])->name('dtks.update');
+
+    Route::get('cek-tte', [TTEController::class, 'index']);
+    Route::post('kirim-tte', [TTEController::class, 'store'])->name('kirim.tte');
 });

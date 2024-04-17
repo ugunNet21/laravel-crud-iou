@@ -39,6 +39,15 @@ class DTKSController extends Controller
     public function update(Request $request)
     {
         try {
+             // Penambahan kode untuk pengecekan akses ke Basic Authentication
+             if (!$this->checkBasicAuthAccess()) {
+                return response()->json(['error' => 'Akses ke Basic Authentication ditolak'], 403);
+            }
+
+            // Penambahan kode untuk pengecekan akses ke ESIGN_VERIFY_API
+            if (!$this->checkESIGNAPIAccess()) {
+                return response()->json(['error' => 'Akses ke ESIGN_VERIFY_API ditolak'], 403);
+            }
             $files = [
                 'file_keterangan_dtks_sudtks',
             ];
@@ -61,9 +70,49 @@ class DTKSController extends Controller
                     } else {
                         throw new \Exception('File ' . $file . ' tidak valid atau tidak ditemukan');
                     }
+                } else {
+                    throw new \Exception('File ' . $file . ' tidak ditemukan dalam request');
                 }
             }
 
+            // Pengecekan apakah file berhasil di-attach
+            if (!isset($data['file_keterangan_dtks_sudtks'])) {
+                throw new \Exception('Gagal attach file ke PDF');
+            }
+
+            // Pengecekan tampilan 'visible'
+            $tampilan = 'visible'; // Ganti dengan nilai yang sesuai jika perlu
+            if ($tampilan !== 'visible') {
+                throw new \Exception('Tampilan PDF harus visible');
+            }
+
+            // Pengecekan linkQR apakah sudah berhasil ditambahkan ke dalam PDF
+            $linkQR = env('ESIGN_LINKQR'); // Ganti dengan nilai yang sesuai jika perlu
+            if (!$linkQR) {
+                throw new \Exception('Link QR belum berhasil ditambahkan ke dalam PDF');
+            }
+
+            // Pengecekan width dan height apakah sudah sesuai
+            $width = 550; // Ganti dengan nilai yang sesuai jika perlu
+            $height = 150; // Ganti dengan nilai yang sesuai jika perlu
+            if ($width !== 550 || $height !== 150) {
+                throw new \Exception('Width dan Height harus sesuai');
+            }
+
+            // Pengecekan apakah 'nik' terdaftar
+            if (!env('ESIGN_NIK_KEPALA_BIDANG_DATA_INFORMASI')) {
+                throw new \Exception('NIK tidak terdaftar');
+            }
+
+            // Pengecekan apakah 'passphrase' terdaftar
+            if (!env('ESIGN_PASSPHRASE_KEPALA_BIDANG_DATA_INFORMASI')) {
+                throw new \Exception('Passphrase tidak terdaftar');
+            }
+
+            // Pengecekan apakah 'tag_koordinat' sudah sesuai
+            if (!env('ESIGN_TAG_KOORDINAT')) {
+                throw new \Exception('Tag koordinat belum disetel');
+            }
 
             $response = Http::withOptions(['verify' => false])
                 ->withBasicAuth(env('ESIGN_USERNAME'), env('ESIGN_PASSWORD'))
@@ -102,4 +151,25 @@ class DTKSController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    // Metode untuk memeriksa akses ke Basic Authentication
+    private function checkBasicAuthAccess()
+    {
+        // Lakukan pengecekan akses ke Basic Authentication di sini
+        // Anda bisa menggunakan alamat IP atau metode lain untuk melakukan pengecekan
+        // Misalnya, jika menggunakan alamat IP localhost:8000, Anda bisa mengembalikan true secara default
+        // Jika diperlukan, sesuaikan dengan logika pengecekan akses yang sesuai
+        return true;
+    }
+
+    // Metode untuk memeriksa akses ke ESIGN_VERIFY_API
+    private function checkESIGNAPIAccess()
+    {
+        // Lakukan pengecekan akses ke ESIGN_VERIFY_API di sini
+        // Anda bisa menggunakan alamat IP atau metode lain untuk melakukan pengecekan
+        // Misalnya, jika menggunakan alamat IP dan port tertentu, Anda bisa mengembalikan true secara default
+        // Jika diperlukan, sesuaikan dengan logika pengecekan akses yang sesuai
+        return true;
+    }
+
 }

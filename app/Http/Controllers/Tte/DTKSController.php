@@ -79,6 +79,7 @@ class DTKSController extends Controller
                 ]);
 
             $responseData = $response->json();
+            // dd($response);
 
             if (isset($responseData['error'])) {
                 $errorCode = isset($responseData['status_code']) ? $responseData['status_code'] : null;

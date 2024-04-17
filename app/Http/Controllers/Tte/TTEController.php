@@ -31,13 +31,13 @@ class TTEController extends Controller
         // Data untuk dikirim ke layanan TTE
         $postData = [
             'file' => $file,
-            'nik' => 'no nik',
-            'passphrase' => 'password',
+            'nik' => '3273192205690003', // NIK dari Kepala Bidang Data Informasi
+            'passphrase' => '2205Edo.', // Passphrase dari Kepala Bidang Data Informasi
             'tampilan' => 'visible',
             'linkQR' => config('e-sign-bsre.url'), // Link QR untuk detail tampilan TTE
             'width' => 200,
             'height' => 150,
-            'tag_koordinat' => '#',
+            'tag_koordinat' => 'a',
         ];
 
         // Melakukan proses HTTP ke layanan TTE

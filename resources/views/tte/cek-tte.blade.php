@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Create Data DTKS TTE</h1>
+        <h1>CEK Data DTKS TTE</h1>
         <form action="{{ route('kirim.tte') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div>

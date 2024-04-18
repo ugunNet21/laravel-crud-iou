@@ -39,8 +39,8 @@ class DTKSController extends Controller
     public function update(Request $request)
     {
         try {
-             // Penambahan kode untuk pengecekan akses ke Basic Authentication
-             if (!$this->checkBasicAuthAccess()) {
+            // Penambahan kode untuk pengecekan akses ke Basic Authentication
+            if (!$this->checkBasicAuthAccess()) {
                 return response()->json(['error' => 'Akses ke Basic Authentication ditolak'], 403);
             }
 
@@ -130,6 +130,15 @@ class DTKSController extends Controller
             $responseData = $response->json();
             // dd($response);
 
+            // Dapatkan URL endpoint dari response
+            $downloadUrl = $responseData['id_dokumen']; // Misalnya
+
+            // Buat permintaan untuk mengunduh PDF
+            $pdfResponse = Http::get($downloadUrl);
+
+            // Simpan file PDF yang didownload
+            $pdfPath = 'path/to/save/' . time() . '_file_keterangan_dtks_sudtks.pdf';
+            Storage::disk('local')->put($pdfPath, $pdfResponse->body());
 
             if (isset($responseData['error'])) {
                 $errorCode = isset($responseData['status_code']) ? $responseData['status_code'] : null;
@@ -147,16 +156,7 @@ class DTKSController extends Controller
             }
 
             // return response()->json(['message' => 'PDF berhasil ditandatangani'], 200);
-            // Jika berhasil, cetak TTE
-            if ($response->status() === 200) {
-                $id_dokumen = $responseData['id_dokumen'];
-                // Menggabungkan URL untuk mencetak TTE dengan id_dokumen
-                $tteUrl = env('ESIGN_VERIFY_API') . '/api/sign/download/' . $id_dokumen;
-                // Mengembalikan URL TTE
-                return response()->json(['tte_url' => $tteUrl], 200);
-            }
-
-            // jika status berhasil 200 cetak tte dengan menggunakan url https://esign-dev.layanan.go.id/api/sign/download/ tambahakan parameter dari headers dari id_dokumen menjadi contohnya seprti ini https://esign-dev.layanan.go.id/api/sign/download/befdd9bb10b74cd0bb043ed2f30cb500
+            return response()->json(['pdf_url' => $pdfPath], 200);
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -166,14 +166,20 @@ class DTKSController extends Controller
     // Metode untuk memeriksa akses ke Basic Authentication
     private function checkBasicAuthAccess()
     {
-
+        // Lakukan pengecekan akses ke Basic Authentication di sini
+        // Anda bisa menggunakan alamat IP atau metode lain untuk melakukan pengecekan
+        // Misalnya, jika menggunakan alamat IP localhost:8000, Anda bisa mengembalikan true secara default
+        // Jika diperlukan, sesuaikan dengan logika pengecekan akses yang sesuai
         return true;
     }
 
     // Metode untuk memeriksa akses ke ESIGN_VERIFY_API
     private function checkESIGNAPIAccess()
     {
-
+        // Lakukan pengecekan akses ke ESIGN_VERIFY_API di sini
+        // Anda bisa menggunakan alamat IP atau metode lain untuk melakukan pengecekan
+        // Misalnya, jika menggunakan alamat IP dan port tertentu, Anda bisa mengembalikan true secara default
+        // Jika diperlukan, sesuaikan dengan logika pengecekan akses yang sesuai
         return true;
     }
 

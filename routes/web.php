@@ -4,6 +4,7 @@ use App\Http\Controllers\Alamat\AlamatController;
 use App\Http\Controllers\Consultation\ConsultationController;
 use App\Http\Controllers\Indoregion\IndoregionController;
 use App\Http\Controllers\Pendaftaran\PendaftaranController;
+use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Tte\BSREController;
 use App\Http\Controllers\Tte\DTKSController;
 use App\Http\Controllers\Tte\TTEController;
@@ -114,3 +115,9 @@ Route::middleware('dtks')->group(function () {
     Route::get('cek-tte', [TTEController::class, 'index']);
     Route::post('kirim-tte', [TTEController::class, 'store'])->name('kirim.tte');
 });
+
+
+// product
+Route::get('products/create', [ProductController::class, 'create'])->name('products.create');
+Route::post('products', [ProductController::class, 'store'])->name('products.store');
+Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');

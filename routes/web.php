@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Alamat\AlamatController;
+use App\Http\Controllers\AuthLoginController;
 use App\Http\Controllers\Consultation\ConsultationController;
 use App\Http\Controllers\Indoregion\IndoregionController;
 use App\Http\Controllers\Pendaftaran\PendaftaranController;
@@ -52,6 +53,10 @@ Route::post('/create-consultation', [ConsultationController::class, 'create'])->
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::get('login-page', [AuthLoginController::class, 'showLogin'])->name('login-page');
+Route::post('login-masuk', [AuthLoginController::class, 'loginMasuk'])->name('login-masuk');
+
 
 Auth::routes();
 

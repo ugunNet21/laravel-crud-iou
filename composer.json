@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.1",
         "azishapidin/indoregion": "^3.0",
+        "captcha-com/laravel-captcha": "4.*",
         "diskominfotik-banda-aceh/e-sign-bsre-php": "^1.2",
         "elibyy/tcpdf-laravel": "^11.1",
         "guzzlehttp/guzzle": "^7.2",

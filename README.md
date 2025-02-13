@@ -25,3 +25,12 @@ composer require captcha-com/laravel-captcha:"4.*"
 
 php artisan vendor:publish --provider="LaravelCaptcha\Providers\LaravelCaptchaServiceProvider"
 ````
+
+## Link live
+
+### captcha
+
+````
+https://ugunnet21.github.io/laravel-crud-iou/src/html/captcha.html
+
+````

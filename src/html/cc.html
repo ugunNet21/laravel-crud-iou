@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="id">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet"
-    href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous">
+
+        <link rel="stylesheet"
+            href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+        <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
 
+        /* userway */
         .high-contrast {
             background-color: black;
             color: white;
@@ -185,6 +192,8 @@
             background-color: #0056b3;
         }
 
+        /* end userway */
+
         /* captcha */
         .captcha-container {
             background-color: #fff;
@@ -234,120 +243,129 @@
             display: none;
         }
 
-        /* end */
+        /* end captcha*/
     </style>
-</head>
+    </head>
 
-<body>
-    <div class="captcha-container">
-        <p>Halaman login</p>
-        <form action method="post">
-            <input type="text" name="username" placeholder="Username">
-            <input type="password" name="password" placeholder="Password">
-        </form>
-        <div id="captcha"></div>
-        <input type="text" id="captcha-input" placeholder="Masukkan CAPTCHA">
-        <input type="text" id="honeypot" class="hidden" autocomplete="off">
-        <!-- Honeypot field -->
-        <button onclick="validateCaptcha()">Submit</button>
-        <button onclick="generateCaptcha()">Refresh</button>
-        <button onclick="playCaptchaAudio()">Dengarkan Audio</button>
-        <p id="captcha-status"></p>
-    </div>
-
-    <!-- Accessibility Widget -->
-    <div id="accessibility-widget">
-        <button id="widget-toggle" aria-label="Open Accessibility Menu">
-            <i class="fas fa-wheelchair"></i>
-        </button>
-
-        <div id="widget-panel">
-            <div class="widget-header">
-                <h3>Accessibility Menu</h3>
-                <button class="close-btn" id="close-widget" aria-label="Close Menu">&times;</button>
+    <body>
+        <div class="container">
+            <div class="card card-body">
+                <p class="form-control text-center">Halaman Login</p>
+                <form action method="post">
+                    <input type="text" name="username" placeholder="Username">
+                    <input type="password" name="password" placeholder="Password">
+                </form>
+                <div id="captcha"></div>
+                <input type="text" id="captcha-input" placeholder="Masukkan CAPTCHA">
+                <input type="text" id="honeypot" class="hidden" autocomplete="off">
+                <button onclick="validateCaptcha()">Submit</button>
+                <button class="icon-btn" onclick="generateCaptcha()"><i class="fas fa-sync-alt"></i></button>
+                <button class="icon-btn" onclick="playCaptchaAudio()"><i class="fas fa-volume-up"></i></button>
+                <select id="voice-select" class="form-control mt-2">
+                    <!-- Opsi suara akan diisi oleh JavaScript -->
+                </select>
+                <p id="captcha-status"></p>
             </div>
-
-            <div class="widget-grid">
-                <div class="widget-card">
-                    <button class="widget-btn" onclick="toggleContrast()">
-                        <i class="fas fa-adjust"></i>
-                        Kontras Tinggi
-                    </button>
-                </div>
-                <div class="widget-card">
-                    <button class="widget-btn" onclick="toggleFontSize()">
-                        <i class="fas fa-text-height"></i>
-                        Perbesar Teks
-                    </button>
-                </div>
-                <div class="widget-card">
-                    <button class="widget-btn" onclick="toggleScreenVoice()">
-                        <i class="fas fa-microphone"></i>
-                        Suara On/Off
-                    </button>
-                </div>
-                <div class="widget-card">
-                    <button class="widget-btn" onclick="highlightLinks()">
-                        <i class="fas fa-link"></i>
-                        Highlight Links
-                    </button>
-                </div>
-                <div class="widget-card">
-                    <button class="widget-btn" onclick="toggleTextSpacing()">
-                        <i class="fas fa-arrows-alt-h"></i>
-                        Text Spacing
-                    </button>
-                </div>
-                <div class="widget-card">
-                    <button class="widget-btn" onclick="pauseAnimations()">
-                        <i class="fas fa-pause"></i>
-                        Pause Animations
-                    </button>
-                </div>
-                <div class="widget-card">
-                    <button class="widget-btn" onclick="hideImages()">
-                        <i class="fas fa-image"></i>
-                        Hide Images
-                    </button>
-                </div>
-                <div class="widget-card">
-                    <button class="widget-btn" onclick="toggleDyslexiaFriendly()">
-                        <i class="fas fa-brain"></i>
-                        Dyslexia Friendly
-                    </button>
-                </div>
-                <div class="widget-card">
-                    <button class="widget-btn" onclick="toggleCursor()">
-                        <i class="fas fa-mouse-pointer"></i>
-                        Cursor
-                    </button>
-                </div>
-                <div class="widget-card">
-                    <button class="widget-btn" onclick="toggleTooltips()">
-                        <i class="fas fa-comment-alt"></i>
-                        Tooltips
-                    </button>
-                </div>
-                <div class="widget-card">
-                    <button class="widget-btn" onclick="toggleLineHeight()">
-                        <i class="fas fa-text-width"></i>
-                        Line Height
-                    </button>
-                </div>
-                <div class="widget-card">
-                    <button class="widget-btn" onclick="toggleTextAlign()">
-                        <i class="fas fa-align-left"></i>
-                        Text Align
-                    </button>
-                </div>
-            </div>
-
-            <button id="reset-settings" onclick="resetSettings()">Reset
-                Semua Pengaturan</button>
         </div>
-    </div>
-</body>
-<script>
+
+        <!-- Accessibility Widget -->
+        <div id="accessibility-widget">
+            <button id="widget-toggle" aria-label="Open Accessibility Menu">
+                <i class="fas fa-wheelchair"></i>
+            </button>
+
+            <div id="widget-panel">
+                <div class="widget-header">
+                    <h3>Accessibility Menu</h3>
+                    <button class="close-btn" id="close-widget"
+                        aria-label="Close Menu">&times;</button>
+                </div>
+
+                <div class="widget-grid">
+                    <div class="widget-card">
+                        <button class="widget-btn" onclick="toggleContrast()">
+                            <i class="fas fa-adjust"></i>
+                            Kontras Tinggi
+                        </button>
+                    </div>
+                    <div class="widget-card">
+                        <button class="widget-btn" onclick="toggleFontSize()">
+                            <i class="fas fa-text-height"></i>
+                            Perbesar Teks
+                        </button>
+                    </div>
+                    <div class="widget-card">
+                        <button class="widget-btn"
+                            onclick="toggleScreenVoice()">
+                            <i class="fas fa-microphone"></i>
+                            Suara On/Off
+                        </button>
+                    </div>
+                    <div class="widget-card">
+                        <button class="widget-btn" onclick="highlightLinks()">
+                            <i class="fas fa-link"></i>
+                            Highlight Links
+                        </button>
+                    </div>
+                    <div class="widget-card">
+                        <button class="widget-btn"
+                            onclick="toggleTextSpacing()">
+                            <i class="fas fa-arrows-alt-h"></i>
+                            Text Spacing
+                        </button>
+                    </div>
+                    <div class="widget-card">
+                        <button class="widget-btn" onclick="pauseAnimations()">
+                            <i class="fas fa-pause"></i>
+                            Pause Animations
+                        </button>
+                    </div>
+                    <div class="widget-card">
+                        <button class="widget-btn" onclick="hideImages()">
+                            <i class="fas fa-image"></i>
+                            Hide Images
+                        </button>
+                    </div>
+                    <div class="widget-card">
+                        <button class="widget-btn"
+                            onclick="toggleDyslexiaFriendly()">
+                            <i class="fas fa-brain"></i>
+                            Dyslexia Friendly
+                        </button>
+                    </div>
+                    <div class="widget-card">
+                        <button class="widget-btn" onclick="toggleCursor()">
+                            <i class="fas fa-mouse-pointer"></i>
+                            Cursor
+                        </button>
+                    </div>
+                    <div class="widget-card">
+                        <button class="widget-btn" onclick="toggleTooltips()">
+                            <i class="fas fa-comment-alt"></i>
+                            Tooltips
+                        </button>
+                    </div>
+                    <div class="widget-card">
+                        <button class="widget-btn" onclick="toggleLineHeight()">
+                            <i class="fas fa-text-width"></i>
+                            Line Height
+                        </button>
+                    </div>
+                    <div class="widget-card">
+                        <button class="widget-btn" onclick="toggleTextAlign()">
+                            <i class="fas fa-align-left"></i>
+                            Text Align
+                        </button>
+                    </div>
+                </div>
+
+                <button id="reset-settings" onclick="resetSettings()">Reset
+                    Semua Pengaturan</button>
+            </div>
+        </div>
+
+    </body>
+    <script>
     // Inisialisasi halaman ketika DOM sudah sepenuhnya dimuat
     document.addEventListener("DOMContentLoaded", function () {
         initializePreferences();

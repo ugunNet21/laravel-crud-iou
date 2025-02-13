@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio CAPTCHA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .captcha-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        #captcha {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            user-select: none;
+            letter-spacing: 3px;
+        }
+        input {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #captcha-status {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="captcha-container">
+        <div id="captcha"></div>
+        <input type="text" id="captcha-input" placeholder="Masukkan CAPTCHA">
+        <input type="text" id="honeypot" class="hidden" autocomplete="off"> <!-- Honeypot field -->
+        <button onclick="validateCaptcha()">Submit</button>
+        <button onclick="generateCaptcha()">Refresh</button>
+        <button onclick="playCaptchaAudio()">Dengarkan Audio</button>
+        <p id="captcha-status"></p>
+    </div>
+
+    <script>
+        let captchaText;
+        let attempts = 0;
+        const maxAttempts = 3;
+
+        function generateCaptcha() {
+            const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789@#$%&*';
+            let captcha = '';
+            for (let i = 0; i < 6; i++) {
+                captcha += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            captchaText = captcha;
+            document.getElementById('captcha').textContent = captcha;
+        }
+
+        function playCaptchaAudio() {
+            if ('speechSynthesis' in window) {
+                let formattedText = '';
+                for (let char of captchaText) {
+                    if (char.match(/[A-Z]/)) {
+                        formattedText += `Kapital ${char}, `;
+                    } else if (char.match(/[a-z]/)) {
+                        formattedText += `${char}, `;
+                    } else if (char.match(/[0-9]/)) {
+                        formattedText += `Angka ${char}, `;
+                    } else {
+                        formattedText += `Simbol ${char}, `;
+                    }
+                }
+
+                const utterance = new SpeechSynthesisUtterance(formattedText);
+                utterance.lang = 'id-ID'; // Bahasa Indonesia
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            } else {
+                alert('Browser Anda tidak mendukung text-to-speech.');
+            }
+        }
+
+        function validateCaptcha() {
+            const userInput = document.getElementById('captcha-input').value.trim();
+            const honeypot = document.getElementById('honeypot').value;
+            const status = document.getElementById('captcha-status');
+
+            // Jika honeypot diisi, kemungkinan besar ini bot
+            if (honeypot !== '') {
+                status.textContent = 'Deteksi aktivitas mencurigakan!';
+                status.style.color = 'red';
+                return;
+            }
+
+            if (userInput === captchaText) {
+                status.textContent = 'CAPTCHA benar!';
+                status.style.color = 'green';
+                attempts = 0; // Reset percobaan jika berhasil
+            } else {
+                attempts++;
+                status.textContent = 'CAPTCHA salah. Coba lagi.';
+                status.style.color = 'red';
+                generateCaptcha();
+            }
+
+            // Blokir jika melebihi batas percobaan
+            if (attempts >= maxAttempts) {
+                alert('Anda telah gagal 3 kali. Silakan coba lagi nanti.');
+                document.querySelectorAll('button').forEach(btn => btn.disabled = true);
+                setTimeout(() => {
+                    document.querySelectorAll('button').forEach(btn => btn.disabled = false);
+                    attempts = 0;
+                    generateCaptcha();
+                }, 30000); // Blokir selama 30 detik
+            }
+        }
+
+        window.onload = generateCaptcha;
+    </script>
+</body>
+</html>

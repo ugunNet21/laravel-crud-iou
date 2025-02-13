@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .high-contrast {
+            background-color: black;
+            color: white;
+        }
+
+        .large-text {
+            font-size: 1.5em;
+        }
+
+        .highlight-links a {
+            background-color: yellow;
+        }
+
+        .text-spacing {
+            letter-spacing: 2px;
+            word-spacing: 5px;
+        }
+
+        .pause-animations * {
+            animation-play-state: paused !important;
+        }
+
+        .hide-images img {
+            display: none;
+        }
+
+        .dyslexia-friendly {
+            font-family: 'OpenDyslexic', sans-serif;
+        }
+
+        .cursor {
+            cursor: pointer;
+        }
+
+        .tooltips {
+            position: relative;
+        }
+
+        .tooltips:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: black;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        .line-height {
+            line-height: 2;
+        }
+
+        .text-align {
+            text-align: justify;
+        }
+
+        #accessibility-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        #widget-toggle {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 15px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        #widget-panel {
+            display: none;
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            width: 320px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .widget-header {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .widget-header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .widget-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .widget-card {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .widget-btn {
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .widget-btn i {
+            font-size: 20px;
+            color: #007bff;
+        }
+
+        /* cek active btn */
+        .widget-btn.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .widget-btn.active i {
+            color: white;
+        }
+
+        .widget-btn i {
+            transition: color 0.3s ease;
+        }
+
+        #reset-settings {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            width: calc(100% - 20px);
+            cursor: pointer;
+        }
+
+        #reset-settings:hover {
+            background-color: #0056b3;
+        }
+
+        /* captcha */
+        .captcha-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #captcha {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            user-select: none;
+            letter-spacing: 3px;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #captcha-status {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* end */
+    </style>
+</head>
+
+<body>
+    <div class="captcha-container">
+        <div id="captcha"></div>
+        <input type="text" id="captcha-input" placeholder="Masukkan CAPTCHA">
+        <input type="text" id="honeypot" class="hidden" autocomplete="off">
+        <!-- Honeypot field -->
+        <button onclick="validateCaptcha()">Submit</button>
+        <button onclick="generateCaptcha()">Refresh</button>
+        <button onclick="playCaptchaAudio()">Dengarkan Audio</button>
+        <p id="captcha-status"></p>
+    </div>
+
+    <!-- Accessibility Widget -->
+    <div id="accessibility-widget">
+        <button id="widget-toggle" aria-label="Open Accessibility Menu">
+            <i class="fas fa-wheelchair"></i>
+        </button>
+
+        <div id="widget-panel">
+            <div class="widget-header">
+                <h3>Accessibility Menu</h3>
+                <button class="close-btn" id="close-widget" aria-label="Close Menu">&times;</button>
+            </div>
+
+            <div class="widget-grid">
+                <div class="widget-card">
+                    <button class="widget-btn" onclick="toggleContrast()">
+                        <i class="fas fa-adjust"></i>
+                        Kontras Tinggi
+                    </button>
+                </div>
+                <div class="widget-card">
+                    <button class="widget-btn" onclick="toggleFontSize()">
+                        <i class="fas fa-text-height"></i>
+                        Perbesar Teks
+                    </button>
+                </div>
+                <div class="widget-card">
+                    <button class="widget-btn" onclick="toggleScreenVoice()">
+                        <i class="fas fa-microphone"></i>
+                        Suara On/Off
+                    </button>
+                </div>
+                <div class="widget-card">
+                    <button class="widget-btn" onclick="highlightLinks()">
+                        <i class="fas fa-link"></i>
+                        Highlight Links
+                    </button>
+                </div>
+                <div class="widget-card">
+                    <button class="widget-btn" onclick="toggleTextSpacing()">
+                        <i class="fas fa-arrows-alt-h"></i>
+                        Text Spacing
+                    </button>
+                </div>
+                <div class="widget-card">
+                    <button class="widget-btn" onclick="pauseAnimations()">
+                        <i class="fas fa-pause"></i>
+                        Pause Animations
+                    </button>
+                </div>
+                <div class="widget-card">
+                    <button class="widget-btn" onclick="hideImages()">
+                        <i class="fas fa-image"></i>
+                        Hide Images
+                    </button>
+                </div>
+                <div class="widget-card">
+                    <button class="widget-btn" onclick="toggleDyslexiaFriendly()">
+                        <i class="fas fa-brain"></i>
+                        Dyslexia Friendly
+                    </button>
+                </div>
+                <div class="widget-card">
+                    <button class="widget-btn" onclick="toggleCursor()">
+                        <i class="fas fa-mouse-pointer"></i>
+                        Cursor
+                    </button>
+                </div>
+                <div class="widget-card">
+                    <button class="widget-btn" onclick="toggleTooltips()">
+                        <i class="fas fa-comment-alt"></i>
+                        Tooltips
+                    </button>
+                </div>
+                <div class="widget-card">
+                    <button class="widget-btn" onclick="toggleLineHeight()">
+                        <i class="fas fa-text-width"></i>
+                        Line Height
+                    </button>
+                </div>
+                <div class="widget-card">
+                    <button class="widget-btn" onclick="toggleTextAlign()">
+                        <i class="fas fa-align-left"></i>
+                        Text Align
+                    </button>
+                </div>
+            </div>
+
+            <button id="reset-settings" onclick="resetSettings()">Reset
+                Semua Pengaturan</button>
+        </div>
+    </div>
+</body>
+<script>
+    // Inisialisasi halaman ketika DOM sudah sepenuhnya dimuat
+    document.addEventListener("DOMContentLoaded", function () {
+        initializePreferences();
+        setupScreenVoice();
+        setupWidget();
+    });
+
+    // 1. Inisialisasi preferensi pengguna dari Local Storage
+    function initializePreferences() {
+        const preferences = [
+            { key: "contrast", className: "high-contrast" },
+            { key: "largeText", className: "large-text" },
+            { key: "highlightLinks", className: "highlight-links" },
+            { key: "textSpacing", className: "text-spacing" },
+            { key: "pauseAnimations", className: "pause-animations" },
+            { key: "hideImages", className: "hide-images" },
+            { key: "dyslexiaFriendly", className: "dyslexia-friendly" },
+            { key: "cursor", className: "cursor" },
+            { key: "tooltips", className: "tooltips" },
+            { key: "lineHeight", className: "line-height" },
+            { key: "textAlign", className: "text-align" }
+        ];
+
+        preferences.forEach(pref => {
+            if (localStorage.getItem(pref.key) === "enabled") {
+                document.body.classList.add(pref.className);
+            }
+        });
+
+        // Menginisialisasi pengaturan suara layar (screen voice)
+        if (localStorage.getItem("screenVoiceEnabled") === "true") {
+            toggleScreenVoice(true);
+        }
+    }
+
+    // 2. Setup Suara Layar (Screen Voice)
+    let screenVoiceEnabled = false; // Menyimpan status suara
+    let currentSpeech = null;
+
+    function setupScreenVoice() {
+        screenVoiceEnabled = localStorage.getItem("screenVoiceEnabled") === "true"; // Mendapatkan status suara dari localStorage
+
+        const readableElements = document.querySelectorAll("label, p, span, h1, h2, h3, h4, h5, h6, a");
+
+        // Event listener untuk elemen yang bisa dibaca
+        readableElements.forEach(element => {
+            element.addEventListener("mouseover", function () {
+                if (screenVoiceEnabled) {
+                    const text = element.innerText.trim();
+                    if (text) {
+                        if (currentSpeech) {
+                            window.speechSynthesis.cancel(); // Hentikan suara sebelumnya
+                        }
+                        speakText(text); // Mulai suara untuk elemen yang di-hover
+                    }
+                }
+            });
+        });
+
+        // Event listener untuk teks yang dipilih
+        document.addEventListener("mouseup", function () {
+            if (screenVoiceEnabled) {
+                const selectedText = window.getSelection().toString().trim();
+                if (selectedText) {
+                    if (currentSpeech) {
+                        window.speechSynthesis.cancel(); // Hentikan suara sebelumnya
+                    }
+                    speakText(selectedText); // Mulai suara untuk teks yang dipilih
+                }
+            }
+        });
+
+        // Fungsi untuk berbicara
+        function speakText(text) {
+            currentSpeech = new SpeechSynthesisUtterance(text);
+            currentSpeech.lang = "id-ID"; // Bahasa Indonesia
+            currentSpeech.rate = 1; // Kecepatan suara
+            window.speechSynthesis.speak(currentSpeech); // Memutar suara
+        }
+    }
+
+    // 3. Fungsi untuk toggle status suara
+    window.toggleScreenVoice = function (enable) {
+        screenVoiceEnabled = (enable !== undefined) ? enable : !screenVoiceEnabled;
+
+        // Menyimpan status ke localStorage
+        localStorage.setItem("screenVoiceEnabled", screenVoiceEnabled);
+
+        // Cari tombol suara berdasarkan teks "Suara On/Off"
+        const voiceButton = Array.from(document.querySelectorAll('.widget-btn')).find(btn => btn.innerText.includes("Suara On/Off"));
+
+        if (voiceButton) {
+            // Hapus kelas 'active' dari semua tombol lainnya
+            document.querySelectorAll('.widget-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Tambahkan kelas 'active' pada tombol yang dipilih
+            if (screenVoiceEnabled) {
+                voiceButton.classList.add('active');  // Aktifkan kelas .active
+                window.speechSynthesis.speak(new SpeechSynthesisUtterance("Screen Voice Aktif")); // Suara aktif
+            } else {
+                voiceButton.classList.remove('active');  // Nonaktifkan kelas .active
+                window.speechSynthesis.cancel(); // Hentikan suara saat nonaktif
+                window.speechSynthesis.speak(new SpeechSynthesisUtterance("Screen Voice Nonaktif")); // Suara nonaktif
+            }
+        }
+    };
+
+    // 4. Fungsi untuk menghapus pengaturan suara
+    window.resetScreenVoice = function () {
+        screenVoiceEnabled = false;
+        localStorage.removeItem("screenVoiceEnabled");
+        window.speechSynthesis.cancel(); // Hentikan suara saat reset
+    };
+
+    // 5. Setup Widget Toggle dan Kontrol
+    function setupWidget() {
+        const widgetToggle = document.getElementById("widget-toggle");
+        const widgetPanel = document.getElementById("widget-panel");
+        const closeWidget = document.getElementById("close-widget");
+
+        // Toggle visibilitas widget
+        widgetToggle.addEventListener("click", () => {
+            widgetPanel.style.display = widgetPanel.style.display === "block" ? "none" : "block";
+        });
+
+        // Tutup panel widget
+        closeWidget.addEventListener("click", () => {
+            widgetPanel.style.display = "none";
+        });
+    }
+
+    // 6. Toggle dan Simpan Preferensi di Local Storage
+    function togglePreference(key, className) {
+        document.body.classList.toggle(className);
+        localStorage.setItem(key, document.body.classList.contains(className) ? "enabled" : "disabled");
+    }
+
+    // Fungsi toggle untuk preferensi lainnya
+    window.toggleContrast = () => togglePreference("contrast", "high-contrast");
+    window.toggleFontSize = () => togglePreference("largeText", "large-text");
+    window.highlightLinks = () => togglePreference("highlightLinks", "highlight-links");
+    window.toggleTextSpacing = () => togglePreference("textSpacing", "text-spacing");
+    window.pauseAnimations = () => togglePreference("pauseAnimations", "pause-animations");
+    window.hideImages = () => togglePreference("hideImages", "hide-images");
+    window.toggleDyslexiaFriendly = () => togglePreference("dyslexiaFriendly", "dyslexia-friendly");
+    window.toggleCursor = () => togglePreference("cursor", "cursor");
+    window.toggleTooltips = () => togglePreference("tooltips", "tooltips");
+    window.toggleLineHeight = () => togglePreference("lineHeight", "line-height");
+    window.toggleTextAlign = () => togglePreference("textAlign", "text-align");
+
+    // 7. Reset Semua Pengaturan ke Default
+    window.resetSettings = function () {
+        const preferences = [
+            { key: "contrast", className: "high-contrast" },
+            { key: "largeText", className: "large-text" },
+            { key: "highlightLinks", className: "highlight-links" },
+            { key: "textSpacing", className: "text-spacing" },
+            { key: "pauseAnimations", className: "pause-animations" },
+            { key: "hideImages", className: "hide-images" },
+            { key: "dyslexiaFriendly", className: "dyslexia-friendly" },
+            { key: "cursor", className: "cursor" },
+            { key: "tooltips", className: "tooltips" },
+            { key: "lineHeight", className: "line-height" },
+            { key: "textAlign", className: "text-align" }
+        ];
+
+        preferences.forEach(pref => {
+            document.body.classList.remove(pref.className);
+            localStorage.removeItem(pref.key);
+        });
+
+        window.resetScreenVoice();
+        alert("Semua pengaturan telah direset!");
+    };
+
+    // captcha
+    let captchaText;
+    let attempts = 0;
+    const maxAttempts = 3;
+
+    function generateCaptcha() {
+        const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789@#$%&*';
+        let captcha = '';
+        for (let i = 0; i < 6; i++) {
+            captcha += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        captchaText = captcha;
+        document.getElementById('captcha').textContent = captcha;
+    }
+
+    function playCaptchaAudio() {
+        if ('speechSynthesis' in window) {
+            let formattedText = '';
+            for (let char of captchaText) {
+                if (char.match(/[A-Z]/)) {
+                    formattedText += `Kapital ${char}, `;
+                } else if (char.match(/[a-z]/)) {
+                    formattedText += `${char}, `;
+                } else if (char.match(/[0-9]/)) {
+                    formattedText += `Angka ${char}, `;
+                } else {
+                    formattedText += `Simbol ${char}, `;
+                }
+            }
+
+            const utterance = new SpeechSynthesisUtterance(formattedText);
+            utterance.lang = 'id-ID'; // Bahasa Indonesia
+            utterance.rate = 0.8;
+            speechSynthesis.speak(utterance);
+        } else {
+            alert('Browser Anda tidak mendukung text-to-speech.');
+        }
+    }
+
+    function validateCaptcha() {
+        const userInput = document.getElementById('captcha-input').value.trim();
+        const honeypot = document.getElementById('honeypot').value;
+        const status = document.getElementById('captcha-status');
+
+        // Jika honeypot diisi, kemungkinan besar ini bot
+        if (honeypot !== '') {
+            status.textContent = 'Deteksi aktivitas mencurigakan!';
+            status.style.color = 'red';
+            return;
+        }
+
+        if (userInput === captchaText) {
+            status.textContent = 'CAPTCHA benar!';
+            status.style.color = 'green';
+            attempts = 0; // Reset percobaan jika berhasil
+        } else {
+            attempts++;
+            status.textContent = 'CAPTCHA salah. Coba lagi.';
+            status.style.color = 'red';
+            generateCaptcha();
+        }
+
+        // Blokir jika melebihi batas percobaan
+        if (attempts >= maxAttempts) {
+            alert('Anda telah gagal 3 kali. Silakan coba lagi nanti.');
+            document.querySelectorAll('button').forEach(btn => btn.disabled = true);
+            setTimeout(() => {
+                document.querySelectorAll('button').forEach(btn => btn.disabled = false);
+                attempts = 0;
+                generateCaptcha();
+            }, 30000); // Blokir selama 30 detik
+        }
+    }
+
+    window.onload = generateCaptcha;
+</script>
+
+</html>

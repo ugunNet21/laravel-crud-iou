@@ -38,3 +38,8 @@ php artisan vendor:publish --provider="LaravelCaptcha\Providers\LaravelCaptchaSe
 https://ugunnet21.github.io/laravel-crud-iou/src/html/captcha.html
 
 ````
+
+````
+https://ugunnet21.github.io/laravel-crud-iou/src/html/userway.html
+
+````

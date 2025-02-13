@@ -10,7 +10,7 @@
 ## Screen shoot
 ![image](https://github.com/ugunNet21/laravel-crud-iou/assets/45864165/0cb7e8e3-995e-44c8-96fe-d31a08de2ef8)
 
-## capthca bot
+## captcha bot
 ![Screenshot from 2025-02-13 05-13-46](https://github.com/user-attachments/assets/d495da2c-6dd9-496a-9bd9-b9b765e9b480)
 
 

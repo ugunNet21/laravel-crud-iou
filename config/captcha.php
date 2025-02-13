@@ -13,5 +13,7 @@ return [
             'Graffiti',
             'GraffitiStreetSign',
         ],
+        'Locale' => 'id-ID',
+        'SoundPackagesFolder' => '/home/anone/Documents/lib', // folder path to sound packages yang bikin saya pusing 
     ],
 ];

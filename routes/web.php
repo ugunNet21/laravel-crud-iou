@@ -17,17 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-
-// require __DIR__.'/auth.php';
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.index');
 Route::get('/pendaftaran/create', [PendaftaranController::class, 'create'])->name('pendaftaran.create');
@@ -47,7 +39,6 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('login-page', [AuthLoginController::class, 'showLogin'])->name('login-page');
 Route::post('login-masuk', [AuthLoginController::class, 'loginMasuk'])->name('login-masuk');
-
 
 Auth::routes();
 
@@ -84,12 +75,9 @@ Route::post('/send-villages-by-district', [IndoregionController::class, 'getVill
 // Route::view('/get-district-by-village', 'get_district_by_village')->name('get-district-by-village');
 // Route::post('/get-district-by-village', [IndoregionController::class, 'getDistrictByVillage']);
 
-
 // Route::get('/get-village', [IndoregionController::class, 'getVillage'])->name('get-village');
 // Route::get('/get-district', [IndoregionController::class, 'getDistrict'])->name('get-district');
 Route::get('/show-dropdown', [IndoregionController::class, 'showDropdown'])->name('show-dropdown');
-
-
 
 Route::get('/get-by-village', [IndoregionController::class, 'getVillage'])->name('get-by-village');
 Route::post('/send-by-village', [IndoregionController::class, 'getVillage'])->name('send-by-village');
@@ -112,8 +100,15 @@ Route::middleware('dtks')->group(function () {
     Route::post('kirim-tte', [TTEController::class, 'store'])->name('kirim.tte');
 });
 
-
 // product
 Route::get('products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('products', [ProductController::class, 'store'])->name('products.store');
 Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
+
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
+
+// require __DIR__.'/auth.php';

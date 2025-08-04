@@ -40,6 +40,26 @@ class UserSeeder extends Seeder
         );
         $user->assignRole('User');
 
+        // Member
+        $member = User::firstOrCreate(
+            ['email' => 'member@example.com'],
+            [
+                'name' => 'Member User',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $member->assignRole('Member');
+
+        // PIC
+        $pic = User::firstOrCreate(
+            ['email' => 'pic@example.com'],
+            [
+                'name' => 'PIC User',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $pic->assignRole('PIC');
+
         $this->command->info('Seeded users.');
     }
 }

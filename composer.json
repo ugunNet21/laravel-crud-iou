@@ -21,6 +21,7 @@
         "setasign/fpdf": "1.8.*",
         "setasign/fpdi": "^2.6",
         "simplesoftwareio/simple-qrcode": "^4.2",
+        "spatie/laravel-permission": "^6.21",
         "yajra/laravel-datatables-oracle": "^10.11"
     },
     "require-dev": {

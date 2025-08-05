@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('conversation_user', function (Blueprint $table) {
             $table->uuid('conversation_id');
             $table->uuid('user_id');
-            $table->enum('role', ['member', 'admin', 'pic'])->default('member');
+            $table->string('role', 50)->nullable();
             $table->integer('unread_count')->default(0);
             $table->timestamp('joined_at')->useCurrent();
             $table->timestamp('muted_until')->nullable();

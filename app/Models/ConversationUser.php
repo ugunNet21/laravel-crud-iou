@@ -18,7 +18,7 @@ class ConversationUser extends Pivot
     protected $fillable = [
         'conversation_id',
         'user_id',
-        'role', // 'member', 'admin', 'pic'
+        'role', // 'Member', 'Admin', 'PIC'
         'unread_count',
         'joined_at',
         'muted_until',

@@ -25,6 +25,10 @@ class Conversation extends Model
         'last_message_id',
         'description',
         'is_private',
+        'service_type',
+        'subject',
+        'recipient_type',
+        'recipient_id',
     ];
 
     protected $casts = [
@@ -63,4 +67,9 @@ class Conversation extends Model
     {
         return $query->where('type', 'hotline');
     }
+    public function recipient()
+    {
+        return $this->belongsTo(User::class, 'recipient_id');
+    }
+    
 }

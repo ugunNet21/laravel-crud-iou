@@ -59,4 +59,10 @@ class Message extends Model
     {
         return $this->hasMany(MessageReadStatus::class);
     }
+    
+    // Helper method to check if others have read
+    public function isReadByOthers()
+    {
+        return $this->readStatuses->where('user_id', '!=', $this->sender_id)->isNotEmpty();
+    }
 }
